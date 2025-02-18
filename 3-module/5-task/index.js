@@ -8,8 +8,8 @@ function getMinMax(str) {
     return { min: NaN, max: NaN };
   }
 
-  const min = Math.min(...numbers);
-  const max = Math.max(...numbers);
-
-  return { min, max };
+  return {
+    min: Math.min(...numbers),
+    max: Math.max(...numbers),
+  }
 }
