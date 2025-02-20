@@ -99,8 +99,8 @@
   right: 0;
 }
 
-.carousel__arrow_left {
-  left: 0;
+.carousel__arrow_left { 
+  left: 0px;
 }
 
 .carousel__arrow img,
