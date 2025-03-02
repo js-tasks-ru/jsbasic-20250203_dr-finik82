@@ -22,7 +22,7 @@ function initCarousel() {
     } else {
       carouselArrowRight.style.display = '';
     }
-  }
+  };
 
   carouselArrowRight.addEventListener('click', () => {
     currentSlide++;
