@@ -2,52 +2,6 @@ import createElement from '../../assets/lib/create-element.js';
 
 export default class Modal {
   constructor() {
-    this.modal = null;
-    this.closeButton = null;
-    this.body = document.body;
-    this.keydownHandler = this.keydownHandler.bind(this);
-    this.closeByClick = this.closeByClick.bind(this);
-  }
-
-  open() {
-    this.render();
-    this.body.classList.add('is-modal-open');
-    this.addEventListeners();
-  }
-
-  close() {
-    if (!this.modal) {
-      return;
-    }
-
-    this.removeEventListeners();
-    this.modal.remove();
-    this.body.classList.remove('is-modal-open');
-    this.modal = null;
-  }
-
-  setTitle(title) {
-    this.title = title;
-    if (this.modal) {
-      const titleElement = this.modal.querySelector('.modal__title');
-      if (titleElement) {
-        titleElement.textContent = title;
-      }
-    }
-  }
-
-  setBody(node) {
-    this.bodyContent = node;
-    if (this.modal) {
-      const bodyElement = this.modal.querySelector('.modal__body');
-      if (bodyElement) {
-        bodyElement.innerHTML = '';
-        bodyElement.append(node); 
-      }
-    }
-  }
-
-  render() {
     this.modal = createElement(`
       <div class="modal">
         <div class="modal__overlay"></div>
@@ -63,6 +17,42 @@ export default class Modal {
       </div>
     `);
 
+    this.closeButton = this.modal.querySelector('.modal__close');
+    this.bodyElement = this.modal.querySelector('.modal__body');
+    this.body = document.body;
+    this.keydownHandler = this.keydownHandler.bind(this);
+    this.closeByClick = this.closeByClick.bind(this);
+  }
+
+  open() {
+    this.body.append(this.modal);
+    this.body.classList.add('is-modal-open');
+    this.addEventListeners();
+    this.updateContent();
+  }
+
+  close() {
+    this.removeEventListeners();
+    this.body.classList.remove('is-modal-open');
+    this.modal.remove();
+  }
+
+  setTitle(title) {
+    this.title = title;
+    if (this.modal) {
+      const titleElement = this.modal.querySelector('.modal__title');
+      if (titleElement) {
+        titleElement.textContent = title;
+      }
+    }
+  }
+
+  setBody(node) {
+    this.bodyContent = node;
+    this.updateContent(); 
+  }
+
+  updateContent() {
     if (this.title) {
       const titleElement = this.modal.querySelector('.modal__title');
       if (titleElement) {
@@ -70,15 +60,9 @@ export default class Modal {
       }
     }
     if (this.bodyContent) {
-      const bodyElement = this.modal.querySelector('.modal__body');
-      if (bodyElement) {
-        bodyElement.innerHTML = '';
-        bodyElement.append(this.bodyContent);
-      }
+      this.bodyElement.innerHTML = '';
+      this.bodyElement.append(this.bodyContent);
     }
-
-    this.body.append(this.modal);
-    this.closeButton = this.modal.querySelector('.modal__close');
   }
 
   addEventListeners() {
